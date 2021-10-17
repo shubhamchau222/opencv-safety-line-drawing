@@ -46,8 +46,18 @@ def drawsafelines(image_np,Orientation,Line_Perc1,Line_Perc2 , store_img_path = 
     
     if(Orientation=="bt"):
         # For Orientation = bottom > top
-        Line_Position1=int(image_np.shape[0]*(Line_Perc1/100))
-        Line_Position2=int(image_np.shape[0]*(Line_Perc2/100))
+        # calculation : x = shape[0] = 400 , y = shape[1] = 600
+        # line_position1 = shape[0]*(10/100) = 400 * 0.15 = 60  ( plot machine border (red) line at 40 from top )
+        # line_position2 = shape[0]*(30/100) = 400 * 0.3 = 120 ( plot safety border (blue) line at 120 from top )
+        # so the distance between two line ( red & blue is ) = 120-60 = 60
+        # this distance will change as per use-case , here we're considering 60
+        Line_Position1=int(image_np.shape[0]*(Line_Perc1/100))     # 60
+        Line_Position2=int(image_np.shape[0]*(Line_Perc2/100))     # 120
+
+        # we're plotting line by taking reference of top
+        # pt1 = ( x1,y1) pt2 = (x2 , y2) => (0,60) ( 600,60 ) <- for line1 ( red - Machine borderline)
+        # pt1 , pt2  = (0,120)(600,120)  <- for  line 2 (blue safety line )
+
         cv2.line(img=image_np, pt1=(0, Line_Position1), pt2=(image_np.shape[1], Line_Position1),
                                     color=(0, 0, 255), thickness=2, lineType=8, shift=0)
         cv2.line(img=image_np, pt1=(0, Line_Position2), pt2=(image_np.shape[1], Line_Position2),
@@ -60,9 +70,17 @@ def drawsafelines(image_np,Orientation,Line_Perc1,Line_Perc2 , store_img_path = 
         return Line_Position2
         
     elif(Orientation=="tb"):
-        # For Orientation = top > bottom
+        # For Orientation = top -> bottom
+        # calculation : x = shape[0] = 400 , y = shape[1] = 600
+        # pos1  = x - (x*0.15) = 400 - 400 *.15 = 340
+        # pos2 =  x - (x*0.15) = 400 - 400 *.30 = 280
+
         Line_Position1=int(image_np.shape[0]-(image_np.shape[0]*(Line_Perc1/100)))
         Line_Position2=int(image_np.shape[0]-(image_np.shape[0]*(Line_Perc2/100)))
+
+        # we're plotting line by taking reg of top
+        # pt1 = ( x1,y1) pt2 = (x2 , y2) => (0,340) ( 600,340 ) <- for line1 ( red - Machine borderline)
+        # pt1 , pt2  = (0,280)(600,280)  <- for  line 2 (blue safety line )
         cv2.line(img=image_np, pt1=(0, Line_Position1), pt2=(image_np.shape[1], Line_Position1),
                  color=(0, 0, 255), thickness=2, lineType=8, shift=0)
         cv2.line(img=image_np, pt1=(0, Line_Position2), pt2=(image_np.shape[1], Line_Position2),
@@ -75,9 +93,20 @@ def drawsafelines(image_np,Orientation,Line_Perc1,Line_Perc2 , store_img_path = 
         return Line_Position2
     
     elif(Orientation=="lr"):
-        # For Orientation = left > right
+        # if orientation is changes then ( height and width will be altered )
+        # For Orientation = left -> right
+        # calculations : x, y= 600 , 400 ( altered due to orientation change )
+        # pos1 = y - y * 0.15 = 400 - 400*0.15 =340
+        # pos2 = y - y * 0.30 = 400 - 400*0.30 =280
         Line_Position1=int(image_np.shape[1]-(image_np.shape[1]*(Line_Perc1/100)))
         Line_Position2=int(image_np.shape[1]-(image_np.shape[1]*(Line_Perc2/100)))
+
+        # we're plotting line by taking reference of left
+        # pt1 = ( x1,y1) pt2 = (x2 , y2) => (pos1,0) ( pos1 ,x )
+        #      => ( 340 , 0 ) (340,600) (<- for line1 ( red - Machine borderline)
+        # pt1 , pt2  => (280,0) (280,600) (<- for line2 ( blue - safety borderline)
+
+
         cv2.line(img=image_np, pt1=(Line_Position1, 0), pt2=(Line_Position1,image_np.shape[0]),
                  color=(0, 0, 255), thickness=2, lineType=8, shift=0)
         cv2.line(img=image_np, pt1=(Line_Position2, 0), pt2=(Line_Position2,image_np.shape[0]),
@@ -92,8 +121,19 @@ def drawsafelines(image_np,Orientation,Line_Perc1,Line_Perc2 , store_img_path = 
         
     elif(Orientation=="rl"):
         # For Orientation =right > left
+        # if orientation is changes then ( height and width will be altered )
+        # calculations : x, y= 600 , 400 ( altered due to orientation change )
+        # pos1 = y - y * 0.15 = 400 - 400*0.15 =340
+        # pos2 = y - y * 0.30 = 400 - 400*0.30 =280
+
         Line_Position1=int(image_np.shape[1]*(Line_Perc1/100))
         Line_Position2=int(image_np.shape[1]*(Line_Perc2/100))
+
+        # we're plotting line by taking reference of right
+        # pt1 = ( x1,y1) pt2 = (x2 , y2) => (pos1,0) ( pos1 ,x )
+        #      => ( 340 , 0 ) (340,600) (<- for line1 ( red - Machine borderline)
+        # pt1 , pt2  => (280,0) (280,600) (<- for line2 ( blue - safety borderline)
+
         cv2.line(img=image_np, pt1=(Line_Position1, 0), pt2=(Line_Position1,image_np.shape[0]),
                  color=(0, 0, 255), thickness=2, lineType=8, shift=0)
         cv2.line(img=image_np, pt1=(Line_Position2, 0), pt2=(Line_Position2,image_np.shape[0]),
