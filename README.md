@@ -13,6 +13,7 @@
 ## some Output images : ( with different Orientations ) 
 
 #### bottom to top operation 
+Note : please , ignore the background image ..
 <img src="https://github.com/shubhamchau222/opencv-safety-line-drawing/blob/main/output_images/orientation_bt.png" alt="workflow" width="70%">
 
 #### Left to Right operation 
@@ -27,4 +28,4 @@
 
 
 
-
+# Thanks for Visiting my repo , if you find helpful then please don't forget to upvote
